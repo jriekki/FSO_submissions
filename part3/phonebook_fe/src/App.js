@@ -5,7 +5,7 @@ const personDelete = (person,persons,setPersons) => {
   if (window.confirm(`Delete ${person.name} from contacts?`)){
     personService.deletePerson(person.id).then(response => console.log(response))
     setPersons(persons.filter(p => p.id !== person.id))}
-  }
+}
 
 const Person = ({person, persons, setPersons}) => {
   return (
@@ -19,8 +19,8 @@ const FilterForm = ({val, fun}) => {
   return(
     <div>
   Filter by name:
-  <input value = {val} onChange={fun}/>
-  </div>
+      <input value = {val} onChange={fun}/>
+    </div>
   )
 }
 
@@ -42,19 +42,19 @@ const ContactList = ({filteredPersons, persons, setPersons}) => filteredPersons.
 
 const PersonForm = ({addPerson,newName,nameChange,newNumber,numberChange}) => {
   return(
-  <form onSubmit = {addPerson}>
+    <form onSubmit = {addPerson}>
       <div>
-          name: <input 
+        name: <input 
           value = {newName}
           onChange = {nameChange}/><br></br>
-          number: <input 
+        number: <input 
           value = {newNumber}
           onChange = {numberChange}/>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      </div>
+      <div>
+        <button type="submit">add</button>
+      </div>
+    </form>
   )
 }
 
@@ -94,7 +94,7 @@ const App = () => {
       name: newName,
       number: newNumber
     }
-    const inequalName = (person) => person.name !== newName;
+    const inequalName = (person) => person.name !== newName
     if (persons.every(inequalName)){
       personService.addPerson(personObject).then(response => {
         setPersons(persons.concat(response))
@@ -111,16 +111,16 @@ const App = () => {
     else {
       const idMatch = persons.find(p => !inequalName(p)).id
       if (window.confirm(`${personObject.name} is already in the phonebook. Update the number?`))
-        {
+      {
         personService.updatePerson(idMatch,personObject).then(response => {
           setPersons(persons.filter(inequalName).concat(response))
           setAddedMessage(`Number of ${personObject.name} was updated.`)
           
         })
           .catch(error => {
-          setNotificationStyle(negativeStyle)
-          setAddedMessage(error.response.data.error)  
-        })
+            setNotificationStyle(negativeStyle)
+            setAddedMessage(error.response.data.error)  
+          })
 
           
         
@@ -146,8 +146,8 @@ const App = () => {
   
 
   const filteredPersons = filterName === ''
-  ? persons
-  : persons.filter(person => person.name.toLowerCase().includes(filterName.toLowerCase()))
+    ? persons
+    : persons.filter(person => person.name.toLowerCase().includes(filterName.toLowerCase()))
 
   useEffect(() => {personService.getAll().then(response => setPersons(response))}
     , [])
@@ -155,10 +155,10 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-        <Notification message={addedMessage} style={notificationStyle} />
-        <FilterForm val={filterName} fun={filterChange} />
+      <Notification message={addedMessage} style={notificationStyle} />
+      <FilterForm val={filterName} fun={filterChange} />
       <h3>Add new contact</h3>
-        <PersonForm addPerson={addPerson} newName={newName} nameChange={nameChange} newNumber={newNumber} numberChange={numberChange} />
+      <PersonForm addPerson={addPerson} newName={newName} nameChange={nameChange} newNumber={newNumber} numberChange={numberChange} />
       <h2>Numbers</h2>
       <ContactList filteredPersons={filteredPersons} persons = {persons} setPersons={setPersons} />
     </div>
