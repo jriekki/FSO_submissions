@@ -75,7 +75,7 @@ test('single item identifier is named "id"', async () => {
 })
 
 describe('POST request', () => {
-    test('has right code and adds item to database', async () => {
+    test('returns right code and adds item to database', async () => {
         const newBlog = {
             "title": "Tests!",
             "author": "Thomas Est",
